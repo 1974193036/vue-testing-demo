@@ -2,6 +2,7 @@ import { shallowMount } from '@vue/test-utils'
 import TodoHeader from '@/components/TodoApp/TodoHeader.vue'
 
 describe('TodoHeader.vue', () => {
+  // 测试头部新增按回车的逻辑
   test('New Todo', async () => {
     const wrapper = shallowMount(TodoHeader) // 挂载组件
     const input = wrapper.find('input[data-testid="new-todo"]')

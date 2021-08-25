@@ -2,6 +2,7 @@ import { shallowMount } from '@vue/test-utils'
 import TodoItem from '@/components/TodoApp/TodoItem.vue'
 
 describe('TodoItem.vue', () => {
+  // 测试TodoItem组件渲染后的内容
   test('show', () => {
     const todo = {
       id: 1,
@@ -13,7 +14,9 @@ describe('TodoItem.vue', () => {
         todo
       }
     })
-    console.log(wrapper.find('label[data-testid="todo-text"]').text())
+    expect(wrapper.find('label[data-testid="todo-text"]').text()).toBe(todo.text)
+    expect(wrapper.find('input[data-testid="todo-done"]').element.checked).toBe(true)
+    expect(wrapper.find('li[data-testid="todo-item"]').classes()).toContain('completed')
   })
   // test('New Todo', async () => {
   //   const $route = {

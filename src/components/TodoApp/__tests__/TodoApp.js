@@ -3,6 +3,7 @@ import TodoApp from '@/components/TodoApp/index.vue'
 import TodoItem from '@/components/TodoApp/TodoItem.vue'
 
 describe('TodoApp.vue', () => {
+  // 测试新增后todos的数据发生变更的逻辑
   test('New Todo', async () => {
     const $route = {
       path: '/'
@@ -19,6 +20,7 @@ describe('TodoApp.vue', () => {
     expect(todo.text).toBe(text)
   })
 
+  // 测试TodoItem组件的数量
   test('Todo List', async () => {
     const $route = {
       path: '/'

@@ -1,12 +1,15 @@
 <template>
   <div class="hello">
+    <button @click="count+=1">点击</button>
+    <p data-id="count-text">{{ count }}</p>
+    <button data-id="btn2" @click="$emit('hello', '123')">测试</button>
     <h1>{{ msg }}</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
     </p>
-    <h3>Installed CLI Plugins</h3>
+    <h3 class="aaa">Installed CLI Plugins</h3>
     <ul>
       <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
       <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
@@ -38,6 +41,11 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  data () {
+    return {
+      count: 0
+    }
   }
 }
 </script>

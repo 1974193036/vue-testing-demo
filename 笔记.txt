@@ -1,0 +1,394 @@
+# 自动化测试
+利用计算机程序检查软件是否运行正常的测试方法，换句话说，就是用其他额外的代码检查被测软件的代码
+
+
+# 自动化测试方法
+可以编写通过浏览器自动执行的程序
+可以直接调用源代码里的函数
+也可以直接对比程序渲染之后的截图
+
+
+# 测试分类
+单元测试（Unit Tests）：验证独立的单元是否正常工作
+集成测试（Service Tests）：验证多个单元协同工作
+端到端测试（E2E）：从用户角度以机器的方式在真实浏览器环境验证应用交互
+快照测试：验证程序的UI变化
+
+
+# 单元测试（Unit Tests）
+测试一个函数或一个组件
+优点：
+提升代码质量，减少bug
+快速反馈，减少调试时间
+让代码维护更容易
+有助于代码的模块化设计
+代码覆盖率高
+缺点：
+单元测试是独立的，无法保证多个单元运行到一起是否正确
+
+
+# 常见的单元测试框架
+Jest 推荐，功能齐全，配置方便
+Mocha 灵活自由
+Jasmine
+Karma
+ava
+Tape
+Jest = Mocha + Chai + Sinon + mockserver + istanbul
+
+
+# 集成测试（Service Tests）
+从用户角度，只看结果，不关注细节，模拟浏览器环境运行脚本
+优点：
+从用户角度出发，更容易获得软件使用过程中的正确性
+相对于写了软件的说明文档
+由于不关注底层代码实现细节，更有利于快速重构
+相比单元测试，集成测试的开发速度要更快一些
+缺点：
+测试失败的时候无法快读定位问题
+代码覆盖率较低
+速度比单元测试要慢
+
+
+# 端到端测试（E2E）
+end to end
+可以从用户的角度，通过浏览器自动检查应用程序是否正常工作，在真实的浏览器环境中执行脚本，让脚本自动操作页面
+优点：
+真实的测试环境
+缺点：
+端到端测试运行不够快，启动浏览器占用几秒，网站响应速度又慢，通常一套端到端测试需要30分钟的运行时间，甚至数小时
+调试困难
+
+
+# 端到端测试的框架
+Cypress
+Nightwatch
+WebdriverIO
+playwright
+
+
+# 快照测试
+快照不是一张截图，是把组件渲染完生成的html字符串写入一个文件里，作为下一次的快照测试，通过文件内容对比
+
+
+# 测试金字塔
+到底该写哪种测试？都写，根据情况灵活分配
+测试是需要分层的
+单元测试成本最低，UI测试成本最高
+单元测试写的数量最多，UI测试写的数量最少
+单元测试速度快
+越是上层的测试，其通过率给开发者带来的信息越大
+
+	UI Tests
+
+     Service Tests
+
+   Unit Tests（单元测试）
+
+
+个人建议
+如果是开发纯函数库，例如loadsh，建议更多的单元测试 + 少量的集成测试
+如果是开发组件库，建议写更多的单元测试，为每个组件编写快照测试，写少量的集成测试 + 端到端测试
+如果是开发业务系统，建议写更多的集成测试，为工具类库、算法写单元测试、写少量的端到端测试
+
+
+# 测试覆盖率（test coverage）
+衡量软件测试完整性的一个重要指标
+掌握测试覆盖率数据，有利于客观认识软件质量，正确了解测试状态
+分为：
+代码覆盖率
+   被执行的代码数量与代码总数量之间的比值
+   根据代码粒度的不同，代码覆盖率可以进一步分为源文件覆盖率，类覆盖率，函数覆盖率，分支覆盖率，语句覆盖率
+   如何度量代码覆盖率：
+	一般通过第三方工具完成，比如Jest自带率测试覆盖率统计
+需求覆盖率
+  100个需求，测了90个。。。
+  测试所覆盖的需求数量与总需求数量的比值
+  如何度量需求覆盖率：
+        没有现成工具，依赖人工计算，写个execl自己统计
+
+
+
+# 测试开发方式
+两个流派
+TDD：
+测试驱动开发，先写测试后实现功能
+编写代码之前先编写测试用例，由测试决定代码
+流程：
+1. 需求分析
+2. 编写单元测试用例
+3. 运行测试
+4. 编写代码使测试通过
+5. 重构/优化代码
+6. 新增功能，重复上述步骤
+
+TDD更适合开发纯函数库，比如lodash，vue，react
+
+BDD：行为驱动开发，先实现功能后写测试
+目的是为了解决TDD模式下开发和实际功能需求不一致而诞生
+核心是关注软件的功能测试，更多的是结合集成测试进行的，它是黑盒的
+流程：
+1. 开发人员与产品、测试、客户等人员沟通确认需求
+2. 使用统一的Gherkin语法将功能需求转换为需求文档
+   Feature: 添加任务
+     Scenario: 在输入框中输入任务名敲回车确定，输出到任务列表中
+       Given 'Hello World'
+       When 在输入框中敲回车
+       Then 任务列表增加一个名称为 'Hello World 的任务'
+3. 开发人员根据Gherkin编写测试用例
+4. 编写代码使测试通过
+5. 新增功能，重复上述步骤
+
+
+# TDD vs BDD
+ 		           TDD 		        BDD
+定义    		测试驱动开发     行为驱动开发
+
+思想    		从代码角度出发   从用户角度出发
+
+代码覆盖率        高 	          一般
+
+软件安全感       一般            高
+
+测试类型         单元测试        集成测试
+
+代码解耦         一般           高
+ 
+代码质量         高             一搬
+
+测试代码量       高             低
+
+个人推荐：
+建议开发功能函数库使用TDD
+建议开发业务系统使用BDD
+
+
+# 自动化测试利弊
+适合引入测试的场景：
+需要长期维护的项目
+较为稳定的项目，或项目中较为稳定的部分
+被多次复用的部分，比如一些通用组件和函数
+ 
+
+
+# jest框架
+基础使用
+1. npm i jest -D
+2. package.json中
+    ```
+    "scripts": {
+      "test": "jest"
+    }
+    ```
+3. 执行 npm run test，会去执行所有的 .test.js 结尾的文件
+4. .test.js 结尾的文件中的test，expect会全局注入，通过 npm i @types/jest -D，书写代码的时候，对于test、 expectd等全局注入的变量会有智能提示
+
+
+# jest特点
+1. 零配置，开箱即用
+2. 自带断言
+   expect
+3. 作为一个面向前端的测试框架，可以利用其特有的快照测试功能，比对UI代码生成的快照文件，实现react等前端框架的自动化测试
+4. jest的测试用例是并行执行的，而且只执行发生改变的文件所对应的测试，提升测试速度
+5. 内置测试覆盖率
+6. 内置Mock
+
+
+# jest配置文件
+jest虽然是零配置的，但是可以修改默认的配置
+生成 jest.config.js
+
+npx jest --init
+
+✔ Would you like to use Typescript for the configuration file? … no
+✔ Choose the test environment that will be used for testing › jsdom (browser-like)
+✔ Do you want Jest to add coverage reports? … no
+✔ Which provider should be used to instrument code for coverage? › babel
+✔ Automatically clear mock calls and instances between every test? … yes
+
+# jest命令选项
+jest demo.test.js 具体对某个文件进行测试
+jest --watchAll 监视模式，服务不会断开，并在任何更改时重新运行所有测试
+jest --watch 监视git仓库中的文件更改，需要git支持，并重新运行与已更改的文件相关的测试
+
+# 监视模式中的辅助命令
+Watch Usage
+ › Press f to run only failed tests.
+ › Press o to only run tests related to changed files.
+ › Press p to filter by a filename regex pattern.
+ › Press t to filter by a test name regex pattern.
+ › Press q to quit watch mode.
+ › Press Enter to trigger a test run.
+
+
+# jest中使用es6
+npm i -D babel-jest @babel/core @babel/preset-env
+```
+// babel.config.js
+module.exports = {
+  presets: [['@babel/preset-env']]
+}
+```
+运行原理：jest在运行的时候会自动找到babel将es6代码转换成es5，模块转换成了Common.js，运行转换之后的测试用例代码
+
+
+# jest中的全局API
+1. test函数
+  测试用例
+  别名 it
+  每一个文件中必须包含测试用例
+  test(xxx, () => {})
+  test.only(xxx, () => {})  // 针对当前模块，只运行此测试用例，上面几个测试用例不会运行
+2. expect
+  断言函数
+  expect(sum(1, 2)).toBe(3)
+  expect(1 + 2).toBe(3)
+  expect({ name: 'jack' }).toEqual({ name: 'jack' })
+  expect('Christoph').toMatch(/stop/)
+  expect(4).toBeGreaterThan(3)
+  expect(4).toBeLessThan(5)
+3. describe
+  创建一个将几个相关测试组合在一起的块
+  组织测试用例，日志输出更加直观
+  describe(xxx, () => {
+    test(xxx, () => {})
+    test(xxx, () => {})
+  })
+  describe.only()
+4. 生命周期钩子
+beforeAll  // 所有测试用例执行之前，先执行这个钩子，仅运行一次
+beforeEach  // 每个测试用例执行之前，会执行这个钩子
+afterAll
+afterEach
+5. jest对象
+jest对象自动位于每个测试文件中的范围内，jest对象中的方法有助于创建模拟，并让你控制jest的整体行为
+可以显式导入 import { jest } from '@jest/globals'
+console.log(jest) // { autoMockOn: f, useFakeTimers: f, ... }
+```
+具体参考 global-api.test.js
+```
+
+
+# 断言函数中常用匹配器
+toBe  // 判断普通常量或对象 是否相等
+toBeCloseTo  // 无限接近 expect(0.1 + 0.2).toBeCloseTo(0.3)
+toBeNull  // 是null
+toBeDefined  // 是定义过的
+toBeUndefined  // 是未定义的
+toBeTruthy  // 匹配任何if语句视为真值的内容
+toBeFalsy  // 匹配任何if语句视为false的内容
+.not.toBeFalsy // 与 toBeFalsy 相反
+toEqual  // 判断对象 是否相等
+toMatch
+toBeGreaterThan  // 大于
+toBeGreaterThanOrEqual  // 大于等于
+toBeLessThan
+toContain  // 数组中是否包含某一项
+```
+具体参考 matcher.test.js
+```
+
+
+# 测试异步代码
+```
+具体参考 async.test.js
+```
+
+
+# Mock定时器
+利用jest对象，有助于创建模拟
+jest.useFakeTimers() // 模拟定时器
+jest.runOnlyPendingTimers() // 快进，让当前进行的定时器结束，不等待其他的
+jest.runAllTimers() // 快进，让所有定时器结束
+jest.advanceTimersByTime(1000); // 快进1秒
+```
+具体参考 timer.test.js
+```
+
+# Mock函数
+1. 模拟函数
+const mockFn = jest.fn() // mock模拟一个函数
+const mockFn = jest.fn((value) => {
+  return value + 1 // 设置mock返回值，会被mockReturnValue覆盖
+}) 
+mockFn.mockReturnValue(123) // 设置所有的mock函数返回值为123
+
+// mockReturnValueOnce：类型mockReturnValue
+// mockFn.mockReturnValueOnce(11)
+// mockFn.mockReturnValueOnce(22)
+// mockFn.mockReturnValueOnce(33)
+
+验证
+console.log(mockFn.mock)
+```
+具体参考 mock-function.test.js
+```
+
+2. 模拟模块
+模拟axios模块
+// 在模块中使用的axios，在测试用例里面就不是真正的axios了，是被mock之后的axios
+jest.mock('axios')
+// 模拟axios的get方法，mock 响应结果
+axios.get.mockResolvedValue({data: [{ name: 'zs' }]})
+
+3. 模拟实现
+jest.mock('./foo')
+import foo from './foo' // 此时的foo已经变成了mock的foo
+foo.mockImplementation(() => {
+  return 123
+})
+expect(foo()).toBe(123) // true
+
+
+# 钩子函数
+beforeAll  // 所有测试用例执行之前，先执行这个钩子，仅运行一次
+beforeEach  // 每个测试用例执行之前，会执行这个钩子
+afterAll // 所有测试用例执行之后，执行这个钩子，仅运行一次
+afterEach // 每个测试用例执行之后，执行
+```
+具体参考 hook.test.js
+```
+
+# DOM测试
+jest内部集成了jsdom，模拟了一套浏览器环境的DOM API，可以直接操作DOM
+expect(document.querySelector('h1').innerHTML).toBe('hello world')
+```
+具体参考 dom.test.js
+```
+
+# 测试vue组件
+利用jsdom
+
+
+# 快照测试
+快照不是一张截图，是把组件渲染完生成的html字符串写入一个文件里，作为下一次的快照测试，通过文件内容对比
+
+// 第一次运行的时候，会生成快照文件字符串，存储在 __snapshots__ 
+// 下一次运行测试的时候，会和快照文件进行比对
+expect(document.body.innerHTML).toMatchSnapshot()
+
+// 如果修改了id="app" --> id="appaaaa"，就会报快照错误
+// 如果确实想更新快照，使用 npx jest --updateSnapshot，更新快照后，再使用npm run test来测试
+
+
+
+# Vue和TDD
+创建项目
+Please pick a preset: Manually select features
+? Check the features needed for your project: Choose Vue version, Babel, Router,
+ Vuex, Linter, Unit
+? Choose a version of Vue.js that you want to start the project with 2.x
+? Use history mode for router? (Requires proper server setup for index fallback 
+in production) No
+? Pick a linter / formatter config: Standard
+? Pick additional lint features: Lint on save, Lint and fix on commit
+? Pick a unit testing solution: Jest
+? Where do you prefer placing config for Babel, ESLint, etc.? In dedicated confi
+g files
+? Save this as a preset for future projects? (y/N) N
+
+# 执行测试
+npm run test:unit
+
+# 默认配置说明
+配置 = @vue/cli-plugin-unit-jest/presets/default/jest-preset.js 的配置 + jest.config.js

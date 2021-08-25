@@ -389,6 +389,7 @@ g files
 
 # 执行测试
 npm run test:unit
+npm run test:unit -- --watch
 
 # 默认配置说明
 配置 = @vue/cli-plugin-unit-jest/presets/default/jest-preset.js 的配置 + jest.config.js

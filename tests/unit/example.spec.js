@@ -12,8 +12,8 @@ test('HelloWorld.vue', async () => {
   })
   // console.log(wrapper.element.innerHTML) // 获取组件html元素，无法获取组件根元素
   // console.log(wrapper.html()) // 获取组件html元素，可以获取到组件根元素
-  // expect(wrapper.html()).toContain('hello')
   // expect(wrapper.element.innerHTML).toMatch('hello')
+  // expect(wrapper.html()).toContain('hello')
 
   /** 测试点击button之后，count变量+1变成1，p标签内的值变成1 */
   const button = wrapper.find('button') // 相当于querySelector

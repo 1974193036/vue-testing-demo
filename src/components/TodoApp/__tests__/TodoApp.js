@@ -144,4 +144,8 @@ describe('TodoApp.vue', () => {
       { id: 2, text: 'play', done: true }
     ])
   })
+
+  test('snapshot', () => {
+    expect(wrapper.html()).toMatchSnapshot()
+  })
 })

@@ -102,4 +102,8 @@ describe('TodoFooter.vue', () => {
       }
     }
   })
+
+  test('snapshot', () => {
+    expect(wrapper.html()).toMatchSnapshot()
+  })
 })

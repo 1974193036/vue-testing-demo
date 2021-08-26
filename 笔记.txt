@@ -387,13 +387,32 @@ in production) No
 g files
 ? Save this as a preset for future projects? (y/N) N
 
+
 # 执行测试
 npm run test:unit
 npm run test:unit -- --watch
 
+
 # 默认配置说明
 配置 = @vue/cli-plugin-unit-jest/presets/default/jest-preset.js 的配置 + jest.config.js
 
+
 # 生成测试覆盖率统计报告
+package.json中
+```
+"coverage": "vue-cli-service test:unit --coverage"
+```
+执行 npm run coverage
+生成coverage/Icov-report/index.html，在浏览器中打开
+
+
 # 上传测试覆盖率到codecov
+.gitignore中添加 coverage
+不把测试报告上传到github，而是上传到专业的平台：https://codecov.io/gh/
+
+npm i codecov -g
+codecov --token=xxxxxxxxxxxxxxx
+
+
+
 # 自动化测试和持续集成

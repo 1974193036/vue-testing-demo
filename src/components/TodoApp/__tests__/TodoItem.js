@@ -98,6 +98,10 @@ describe('TodoItem.vue', () => {
     expect(wrapper.vm.isEditing).toBeFalsy() // 验证编辑状态被取消
   })
 
+  test('snapshot', () => {
+    expect(wrapper.html()).toMatchSnapshot()
+  })
+
   // test('New Todo', async () => {
   //   const $route = {
   //     path: '/'

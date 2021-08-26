@@ -9,6 +9,7 @@
     <ul class="filters">
       <li>
         <!-- <a class="selected" href="#/">All</a> -->
+        <!-- exact: 精确匹配 -->
         <router-link data-testid="link-all" exact to="/">All</router-link>
       </li>
       <li>

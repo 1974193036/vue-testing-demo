@@ -393,3 +393,7 @@ npm run test:unit -- --watch
 
 # 默认配置说明
 配置 = @vue/cli-plugin-unit-jest/presets/default/jest-preset.js 的配置 + jest.config.js
+
+# 生成测试覆盖率统计报告
+# 上传测试覆盖率到codecov
+# 自动化测试和持续集成

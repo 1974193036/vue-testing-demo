@@ -13,6 +13,7 @@ describe('TodoApp.vue', () => {
     const $route = {
       path: '/'
     }
+    // 伪造 $route 和 $router
     wrapper = shallowMount(TodoApp, {
       mocks: {
         $route
@@ -100,5 +101,47 @@ describe('TodoApp.vue', () => {
     wrapper.vm.todos[0].done = false
     await Vue.nextTick()
     expect(toggleAll.element.checked).toBeFalsy()
+  })
+
+  // 测试清除功能
+  test('Clear Completed', async () => {
+    wrapper.vm.handleClearCompleted()
+    expect(wrapper.vm.todos.length).toBe(2)
+    expect(wrapper.vm.todos.find(v => v.done)).toBeFalsy()
+    expect(wrapper.vm.todos).toEqual([
+      { id: 1, text: 'eat', done: false },
+      { id: 3, text: 'sleep', done: false }
+    ])
+  })
+
+  // 测试路由改变时，filterTodos数据发生改变
+  test('Filter Todos', async () => {
+    // 将路由导航到 /，断言 filterTodos = 完整的任务列表
+
+    // 此时的 $route 就是上面mock的 $route
+    wrapper.vm.$route.path = '/'
+    // await Vue.nextTick()
+    expect(wrapper.vm.filterTodos).toEqual([
+      { id: 1, text: 'eat', done: false },
+      { id: 2, text: 'play', done: true },
+      { id: 3, text: 'sleep', done: false }
+    ])
+
+    // 将路由导航到 /active
+    // 断言 filterTodos = 所有未完成任务
+    wrapper.vm.$route.path = '/active'
+    // await Vue.nextTick()
+    expect(wrapper.vm.filterTodos).toEqual([
+      { id: 1, text: 'eat', done: false },
+      { id: 3, text: 'sleep', done: false }
+    ])
+
+    // 将路由导航到 /completed
+    // 断言 filterTodos = 所有已完成任务
+    wrapper.vm.$route.path = '/completed'
+    // await Vue.nextTick()
+    expect(wrapper.vm.filterTodos).toEqual([
+      { id: 2, text: 'play', done: true }
+    ])
   })
 })
